@@ -1,0 +1,111 @@
+var numDrops = 15;
+var numRocks = 3;
+var numStars = 1;
+
+var dropSpeed = [];
+var dropxPositions = [];
+var dropyPositions = [];
+var starxPositions = [];
+var staryPositions = [];
+var rockxPositions = [];
+var rockyPositions = [];
+var dropColor = [];
+var gscore = 0;
+
+var player1X = 200;
+var PLAYER_MOVE_SPEED = 4;
+var PADDLE_HEIGHT = 20;
+var PADDLE_WIDTH = 100;
+
+var drawPlayer = function() {
+    fill(148, 87, 8);
+    rect(player1X, 300, PADDLE_WIDTH, PADDLE_HEIGHT);
+};
+
+for (var i = 1; i <= numDrops; ++i) {
+    dropxPositions.push(round(random(10, 390)));
+    dropyPositions.push(round(random(-500, 0)));
+    dropColor.push(color(round(random(0, 255)), round(random(0, 255)), round(random(0, 255))));
+    dropSpeed.push(round(random(2, 5)));
+}
+
+for (var j = 1; j <= numRocks; ++j) {
+    rockxPositions.push(round(random(10, 390)));
+    rockyPositions.push(round(random(-500, 0)));
+    dropColor.push(color(round(random(0, 255)), round(random(0, 255)), round(random(0, 255))));
+    dropSpeed.push(round(random(3, 7)));
+}
+
+for (var w = 1; w <= numStars; ++w) {
+    starxPositions.push(round(random(10, 390)));
+    staryPositions.push(round(random(-500, 0)));
+    dropColor.push(color(round(random(0, 255)), round(random(0, 255)), round(random(0, 255))));
+    dropSpeed.push(round(random(1, 2)));
+}
+
+
+draw = function() {
+    background(255, 204, 204);
+    noStroke();
+    fill(0, 0, 0);
+    textSize(20);
+    text( "Score:" + gscore, 10, 20);
+
+    if (keyIsPressed) {
+        if (keyCode === LEFT) {
+            player1X -= PLAYER_MOVE_SPEED;
+        } else if (keyCode === RIGHT) {
+            player1X += PLAYER_MOVE_SPEED;
+        }
+    }
+
+    // Ensure the paddle stays within the canvas bounds
+    player1X = constrain(player1X, 0, width - PADDLE_WIDTH);
+
+    drawPlayer();
+
+    for (var i = 0; i < dropxPositions.length; i++) {
+        fill(dropColor[i]);
+        ellipse(dropxPositions[i], dropyPositions[i], 10, 10);
+        dropyPositions[i] += dropSpeed[i];
+        //////////////////
+        if (dropyPositions[i] > 400) {
+            dropyPositions[i] = random(-500, 0);
+            dropxPositions[i] = random(10, width - 10);
+        }
+        
+        if (dropyPositions[i] + dropSpeed[i] >= 300 && dropyPositions[i] + dropSpeed[i] <=          300 + PADDLE_HEIGHT && dropxPositions[i] >= player1X && dropxPositions[i] <=                player1X + PADDLE_WIDTH) {
+            dropyPositions[i] = random(-500, 0); 
+            dropxPositions[i] = random(10, width - 10);
+            gscore ++;
+        }
+    }
+    for (var w = 0; w < starxPositions.length; w++) {
+        image(getImage("space/star"), starxPositions[w], staryPositions[w], 25, 25);
+        staryPositions[w] += dropSpeed[w];
+        if (staryPositions[w] > 400) {
+            staryPositions[w] = random(-500, 0);
+            starxPositions[w] = random(10, width - 10);
+        }
+        
+        if (staryPositions[w] + dropSpeed[w] >= 300 && staryPositions[w] + dropSpeed[w] <=          300 + PADDLE_HEIGHT && starxPositions[w] >= player1X && starxPositions[w] <=                player1X + PADDLE_WIDTH) {
+            staryPositions[w] = random(-500, 0); 
+            starxPositions[w] = random(10, width - 10);
+            gscore += 15;
+        }
+    }
+    for (var j = 0; j < rockxPositions.length; j++) {
+        image(getImage("cute/Rock"), rockxPositions[j] - 12.5, rockyPositions[j], 25, 25);
+        rockyPositions[j] += dropSpeed[j];
+        if (rockyPositions[j] > 400) {
+            rockyPositions[j] = random(-500, 0);
+            rockxPositions[j] = random(10, width - 10);
+        }
+        
+        if (rockyPositions[j] + dropSpeed[j] >= 300 && rockyPositions[j] + dropSpeed[j] <=          300 + PADDLE_HEIGHT && rockxPositions[j] >= player1X && rockxPositions[j] <=                player1X +     PADDLE_WIDTH) {
+            rockyPositions[j] = random(-500, 0); 
+            rockxPositions[j] = random(10, width - 10);
+            gscore -= 10;
+        }
+    }
+};
