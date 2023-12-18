@@ -1,0 +1,520 @@
+var player_score = 0;
+var computer_score = 0;
+
+var computer_choice = round(random(0.5, 6.4));  //1=Aqua, 2=Dusk, 3=Leaf, 4=Picer, 5=Primo, 6=Starky
+
+//Text out instructions
+fill(0, 0, 0);
+noStroke();
+textSize(20);
+text ("Choose Your Pokemon!", 75, 30);
+text ("Aqua", 10, 65);
+image(getImage("avatars/aqualine-ultimate"), 60, 35, 50, 50 );
+text ("Dusk", 150, 65);
+image(getImage("avatars/duskpin-ultimate"), 200, 35, 50, 50 );
+text ("Leaf", 300, 65);
+image(getImage("avatars/leafers-ultimate"), 350, 35, 50, 50 );
+text ("Picer", 10, 175);
+image(getImage("avatars/piceratops-ultimate"), 60, 145, 50, 50 );
+text ("Primo", 150, 175);
+image(getImage("avatars/primosaur-ultimate"), 200, 145, 50, 50 );
+text ("Starky", 300, 175);
+image(getImage("avatars/starky-ultimate"), 350, 145, 50, 50 );
+
+textSize(14);
+var mouseClicked = function ()
+{
+    if (mouseY > 45 && mouseY <=85 && mouseX > 5 && mouseX <= 120)  // User chose Aqua
+        {
+            if(computer_choice >= 0.5 && computer_choice < 1.5){
+                fill(255, 255, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You both picked 'Aqua' go again!", 20, 320);
+               image(getImage("avatars/aqualine-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 260);
+               image(getImage("avatars/aqualine-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            if(computer_choice >= 1.5 && computer_choice < 2.5){
+                fill(0, 235, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Aqua', Your oppent picked 'Dusk' You Won!", 20, 300); 
+                image(getImage("avatars/aqualine-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 260);
+               image(getImage("avatars/duskpin-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+               player_score ++;
+            }
+            /////////////////////////////////////////////////////
+            if(computer_choice >= 2.5 && computer_choice < 3.5){
+                fill(0, 255, 70);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Aqua', Your oppent picked 'Leaf'. You lost!", 20, 300); 
+               computer_score ++;
+                image(getImage("avatars/aqualine-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 260);
+               image(getImage("avatars/leafers-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 3.5 && computer_choice < 4.5){
+                fill(0, 235, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Aqua', Your oppent picked 'Picer'. You Won!", 20, 300); 
+               player_score ++;
+                image(getImage("avatars/aqualine-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 260);
+               image(getImage("avatars/piceratops-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 4.5 && computer_choice < 5.5){
+                fill(225, 255, 0);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Aqua', Your oppent picked 'Primo'. You lost!", 20, 300);
+               computer_score ++;
+                image(getImage("avatars/aqualine-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 260);
+               image(getImage("avatars/primosaur-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 5.5 && computer_choice < 6.5){
+                fill(255, 255, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Aqua', Your oppent picked 'Starky'. Draw!", 20, 300); 
+                image(getImage("avatars/aqualine-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 260);
+               image(getImage("avatars/starky-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            // Add the logic to determine if user or computer won, or if there was a tie.
+        }
+        
+        else if (mouseY > 45 && mouseY <=85 && mouseX > 140 && mouseX <= 260) //User chose Dusk
+        {
+            if(computer_choice >= 0.5 && computer_choice < 1.5){
+                fill(0, 235, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Dusk', Your oppent picked 'Aqua' You lost!", 20, 300);
+               image(getImage("avatars/duskpin-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 260);
+               image(getImage("avatars/aqualine-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+               computer_score ++;
+            }
+            if(computer_choice >= 1.5 && computer_choice < 2.5){
+                fill(255, 255, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You both picked 'Dusk' go again!", 20, 300); 
+               image(getImage("avatars/duskpin-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 260);
+               image(getImage("avatars/duskpin-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            /////////////////////////////////////////////////////
+            if(computer_choice >= 2.5 && computer_choice < 3.5){
+                fill(255, 0, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Dusk', Your oppent picked 'Leaf'. You Won!", 20, 300); 
+               player_score ++;
+               image(getImage("avatars/duskpin-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 260);
+               image(getImage("avatars/leafers-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 3.5 && computer_choice < 4.5){
+                fill(255, 255, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Dusk', Your oppent picked 'Picer'. Draw!", 20, 300);
+               image(getImage("avatars/duskpin-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 260);
+               image(getImage("avatars/piceratops-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 4.5 && computer_choice < 5.5){
+                fill(255, 0, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Dusk', Your oppent picked 'Primo'. You Won!", 20, 300);
+               player_score ++;
+               image(getImage("avatars/duskpin-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 260);
+               image(getImage("avatars/primosaur-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 5.5 && computer_choice < 6.5){
+                fill(200, 200, 200);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Dusk', Your oppent picked 'Starky'. You Lost!", 20, 300); 
+               player_score ++;
+               image(getImage("avatars/duskpin-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 260);
+               image(getImage("avatars/starky-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            // Add the logic to determine if user or computer won, or if there was a tie.
+        }
+        
+        else if (mouseY > 45 && mouseY <=85 && mouseX > 300 && mouseX <= 400) //User chose Leaf
+        {
+            if(computer_choice >= 0.5 && computer_choice < 1.5){
+                 fill(0, 255, 70);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Leaf', Your oppent picked 'Aqua.' You won!", 20, 300);
+               player_score ++;
+               image(getImage("avatars/leafers-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 260);
+               image(getImage("avatars/aqualine-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            if(computer_choice >= 1.5 && computer_choice < 2.5){
+                fill(255, 0, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Leaf', Your oppent picked 'Dusk' You lost!", 20, 300);
+               computer_score ++;
+               image(getImage("avatars/leafers-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 260);
+               image(getImage("avatars/duskpin-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            /////////////////////////////////////////////////////
+            if(computer_choice >= 2.5 && computer_choice < 3.5){
+                fill(255, 255, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You both picked 'Leaf' go again!", 20, 300);  
+               image(getImage("avatars/leafers-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 260);
+               image(getImage("avatars/leafers-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 3.5 && computer_choice < 4.5){
+                fill(255,0,0);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Leaf', Your oppent picked 'Picer'. You Lost!", 20, 300);
+               image(getImage("avatars/leafers-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 260);
+               image(getImage("avatars/piceratops-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+               computer_score ++;
+            }
+            
+            if(computer_choice >= 4.5 && computer_choice < 5.5){
+               fill(255, 255, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Leaf', Your oppent picked 'Primo'. You Draw!", 20, 300);
+               player_score ++;
+               image(getImage("avatars/leafers-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 260);
+               image(getImage("avatars/primosaur-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 5.5 && computer_choice < 6.5){
+                 fill(0, 255, 70);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Leaf', Your oppent picked 'Starky'. You Won!", 20, 300); 
+               player_score ++;
+               image(getImage("avatars/leafers-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 260);
+               image(getImage("avatars/starky-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            // Add the logic to determine if user or computer won, or if there was a tie.
+        }
+        
+        else if (mouseY > 155 && mouseY <= 195 && mouseX > 5 && mouseX <= 120) //User chose Picer
+        {
+            if(computer_choice >= 0.5 && computer_choice < 1.5){
+                fill(0, 235, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Picer', Your oppent picked 'Aqua.' You Lost!", 20, 300);
+               computer_score ++;
+               image(getImage("avatars/piceratops-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 260);
+               image(getImage("avatars/aqualine-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            if(computer_choice >= 1.5 && computer_choice < 2.5){
+                fill(255, 255, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Picer', Your oppent picked 'Dusk' You Draw!", 20, 300);
+               image(getImage("avatars/piceratops-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 260);
+               image(getImage("avatars/duskpin-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            /////////////////////////////////////////////////////
+            if(computer_choice >= 2.5 && computer_choice < 3.5){
+                fill(255,0,0);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Picer', Your oppent picked 'Leaf'. You Won!", 20, 300); 
+               image(getImage("avatars/piceratops-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 260);
+               image(getImage("avatars/leafers-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+               player_score ++;
+            }
+            
+            if(computer_choice >= 3.5 && computer_choice < 4.5){
+                fill(255, 255, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+                 text("You both picked 'Picer' go again!", 20, 300);
+                 image(getImage("avatars/piceratops-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 260);
+               image(getImage("avatars/piceratops-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 4.5 && computer_choice < 5.5){
+                fill(225, 255, 0);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Picer', Your oppent picked 'Primo'. You Lost!", 20, 300);
+               computer_score ++;
+               image(getImage("avatars/piceratops-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 260);
+               image(getImage("avatars/primosaur-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 5.5 && computer_choice < 6.5){
+                fill(255,0,0);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Picer', Your oppent picked 'Starky'. You Won!", 20, 300); 
+               player_score ++;
+               image(getImage("avatars/piceratops-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 260);
+               image(getImage("avatars/starky-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            // Add the logic to determine if user or computer won, or if there was a tie.
+        }
+        
+        else if (mouseY > 155 && mouseY <= 195 && mouseX > 140 && mouseX <= 260) //User chose Primo
+        {
+            if(computer_choice >= 0.5 && computer_choice < 1.5){
+               fill(225, 255, 0);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Primo', Your oppent picked 'Aqua.' You Won!", 20, 300);
+               player_score ++;
+               image(getImage("avatars/primosaur-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 260);
+               image(getImage("avatars/aqualine-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            if(computer_choice >= 1.5 && computer_choice < 2.5){
+              fill(255, 0, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Primo', Your oppent picked 'Dusk' You Lost!", 20, 300);
+               computer_score ++;
+               image(getImage("avatars/primosaur-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 260);
+               image(getImage("avatars/duskpin-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            /////////////////////////////////////////////////////
+            if(computer_choice >= 2.5 && computer_choice < 3.5){
+                fill(255, 255, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Primo', Your oppent picked 'Leaf'. You Draw!", 20, 300);
+               image(getImage("avatars/primosaur-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 260);
+               image(getImage("avatars/leafers-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 3.5 && computer_choice < 4.5){
+               fill(225, 255, 0);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+                text("You picked 'Primo', Your oppent picked 'Picer'. You Won!", 20, 300);
+               player_score ++;
+               image(getImage("avatars/primosaur-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 260);
+               image(getImage("avatars/piceratops-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 4.5 && computer_choice < 5.5){
+               fill(255, 255, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You both picked 'Primo' go again!", 20, 300);
+               image(getImage("avatars/primosaur-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 260);
+               image(getImage("avatars/primosaur-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 5.5 && computer_choice < 6.5){
+               fill(200, 200, 200);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Primo', Your oppent picked 'Starky'. You Lost!", 20, 300); 
+               image(getImage("avatars/primosaur-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 260);
+               image(getImage("avatars/starky-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+               computer_score ++;
+            }
+            // Add the logic to determine if user or computer won, or if there was a tie.
+        }
+        
+         else if (mouseY > 155 && mouseY <= 195 && mouseX > 300 && mouseX <= 400) //User chose Starky
+        {
+            if(computer_choice >= 0.5 && computer_choice < 1.5){
+               fill(255, 255, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Starky', Your oppent picked 'Aqua' You Draw!", 20, 300);
+               image(getImage("avatars/starky-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 260);
+               image(getImage("avatars/aqualine-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            if(computer_choice >= 1.5 && computer_choice < 2.5){
+               fill(200, 200, 200);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Starky', Your oppent picked 'Dusk' You Won!", 20, 300);
+               computer_score ++;
+               image(getImage("avatars/starky-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 260);
+               image(getImage("avatars/duskpin-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+               player_score ++;
+            }
+            /////////////////////////////////////////////////////
+            if(computer_choice >= 2.5 && computer_choice < 3.5){
+                fill(0, 255, 70);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Starky', Your oppent picked 'Leaf'. You Lost!", 20, 300);
+               computer_score ++;
+               image(getImage("avatars/leafers-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 260);
+               image(getImage("avatars/starky-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 3.5 && computer_choice < 4.5){
+                fill(255,0,0);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+                text("You picked 'Starky', Your oppent picked 'Picer'. You Lost!", 20, 300);
+               computer_score ++;
+               image(getImage("avatars/starky-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 260);
+               image(getImage("avatars/piceratops-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 4.5 && computer_choice < 5.5){
+               fill(200, 200, 200);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+               text("You picked 'Starky', Your oppent picked 'Primo'. You Won!", 20, 300);
+               image(getImage("avatars/starky-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 260);
+               image(getImage("avatars/primosaur-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+               player_score ++;
+            }
+            
+            if(computer_choice >= 5.5 && computer_choice < 6.5){
+                fill(255, 255, 255);
+                rect(5, 200 , 380, 140);
+                fill(0, 0, 0);
+                text("You both picked 'Starky' go again!", 20, 300);
+                image(getImage("avatars/starky-seedling"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 260);
+               image(getImage("avatars/starky-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            // Add the logic to determine if user or computer won, or if there was a tie.
+        }
+
+    else 
+        {
+            fill(255, 255, 255);
+            rect(10,290,390,20);
+            fill(0, 0, 0);
+            text ("Click One of the choices",100,300);
+        }
+    computer_choice = round(random(0.5,6.4));  // get new computer choice
+    
+};
+
+var draw = function() {
+        fill(255, 255, 255);
+        rect(90,340,310,20); // rect to blank out previous score
+        fill(0, 0, 0);
+        text ("Player Sore: " + player_score + "   Computer Score: " + computer_score, 50,360);
+};
+
