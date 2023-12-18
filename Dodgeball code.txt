@@ -1,0 +1,68 @@
+var balls = [];
+var score = 0;
+var gameOver = false;
+var startTime;
+
+var Ball = function() {
+    this.x = random(20, 380);
+    this.y = random(20, 380);
+    this.speedX = random(-3, 3);
+    this.speedY = random(-3, 3);
+    this.radius = 15;
+
+    this.update = function() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.x + this.radius >= 400 || this.x - this.radius <= 0) {
+            this.speedX *= -1;
+        }
+        if (this.y + this.radius >= 400 || this.y - this.radius <= 0) {
+            this.speedY *= -1;
+        }
+
+        // Draw the ball
+        fill(196, 49, 81);
+        ellipse(this.x, this.y, this.radius * 2, this.radius * 2);
+    };
+};
+
+var addBall = function() {
+    if (gameOver === false) {
+        var newBall = new Ball();
+        balls.push(newBall);
+    }
+};
+
+var draw = function() {
+    background(255);
+
+
+    for (var i = 0; i < balls.length; i++) {
+        balls[i].update();
+        if (dist(mouseX, mouseY, balls[i].x, balls[i].y) < balls[i].radius && gameOver === false) {
+            gameOver = true;
+        }
+    }
+
+    if (gameOver === true) {
+        textSize(40);
+        textAlign(CENTER, CENTER);
+        fill(255, 0, 0);
+        text("Game Over!", 200, 200);
+    } 
+    else if (frameCount % 150 === 0) {
+            score++;
+        }
+    
+
+    textSize(20);
+    textAlign(LEFT, TOP);
+    fill(0);
+    text("Score: " + score, 20, 20);
+
+    if (gameOver === false && frameCount % 120 === 0) {
+        addBall();
+    }
+};
+
