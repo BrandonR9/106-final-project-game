@@ -1,0 +1,2313 @@
+// Global config
+var currentScene = 17;
+var NUM_COLS = 5;
+var NUM_ROWS = 4;
+var startTime;
+var stillPlaying = false;
+var currentTime = 0;
+//var updateTimer = false;
+
+var numDrops = 15;
+var numRocks = 3;
+var numStars = 1;
+
+var dropSpeed = [];
+var dropxPositions = [];
+var dropyPositions = [];
+var starxPositions = [];
+var staryPositions = [];
+var rockxPositions = [];
+var rockyPositions = [];
+var dropColor = [];
+var gscore = 0;
+
+var player1X = 200;
+var PLAYER_MOVE_SPEED = 4;
+var PADDLE_HEIGHT = 20;
+var PADDLE_WIDTH = 50;
+
+
+
+
+var drawBit = function (myBitMoji){
+noStroke();
+fill(255,205,148); // Head
+ellipse(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*70), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*85), myBitMoji.bitSize/100*70, myBitMoji.bitSize/100*100);
+
+fill(255,255,255); // Jawline
+ellipse(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*38),myBitMoji.bitmojiY+(myBitMoji.bitSize/100*130), myBitMoji.bitSize/100*28, myBitMoji.bitSize/100*51);
+ellipse(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*103), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*130), myBitMoji.bitSize/100*28, myBitMoji.bitSize/100*51);
+
+                  // Scalera
+ellipse(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*55), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*75), myBitMoji.bitSize/100*20, myBitMoji.bitSize/100*15);
+ellipse(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*83), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*75), myBitMoji.bitSize/100*18, myBitMoji.bitSize/100*15);
+
+fill(33, 24, 199);  // Eyes
+ellipse(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*55), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*75), myBitMoji.bitSize/100*8, myBitMoji.bitSize/100*8);
+ellipse(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*83), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*75), myBitMoji.bitSize/100*8, myBitMoji.bitSize/100*8);
+
+fill(0, 0, 0);  // Iris
+ellipse(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*55), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*75), myBitMoji.bitSize/100*4, myBitMoji.bitSize/100*4);
+ellipse(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*83), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*75), myBitMoji.bitSize/100*4, myBitMoji.bitSize/100*4);
+
+stroke(0,0,0);
+line(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*45), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*64), myBitMoji.bitmojiX+(myBitMoji.bitSize/100*60), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*65));
+line(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*75), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*67), myBitMoji.bitmojiX+(myBitMoji.bitSize/100*93), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*65));
+
+fill(0, 0, 0);  // Headband
+rect(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*35), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*41), myBitMoji.bitSize/100*75, myBitMoji.bitSize/100*20);
+
+noStroke();
+
+fill(135, 92, 35); // Hair
+arc(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*45), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*53), myBitMoji.bitSize/100*34, myBitMoji.bitSize/100*70, -217,35);
+arc(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*88), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*36), myBitMoji.bitSize/100*34, myBitMoji.bitSize/100*54, -217, 35);
+arc(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*69), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*32), myBitMoji.bitSize/100*34, myBitMoji.bitSize/100*54, -217, 35);
+arc(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*57), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*38), myBitMoji.bitSize/100*38, myBitMoji.bitSize/100*64, -217, 35);
+arc(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*97), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*53), myBitMoji.bitSize/100*34, myBitMoji.bitSize/100*75, -217, 35);
+
+stroke(0,0,0); // Nose
+fill(255, 205, 148);
+bezier(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*67), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*77), myBitMoji.bitmojiX+(myBitMoji.bitSize/100*82), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*99), myBitMoji.bitmojiX+(myBitMoji.bitSize/100*84), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*109), myBitMoji.bitmojiX+(myBitMoji.bitSize/100*69), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*102));
+
+fill(255,255,255); //Mouth
+arc(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*70), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*112), myBitMoji.bitSize/100*30, myBitMoji.bitSize/100*11, 0, 180);
+
+line(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*53), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*111), myBitMoji.bitmojiX+(myBitMoji.bitSize/100*86), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*111)); // Top Lip
+
+noStroke();
+fill(255,205,148); // Upperbody
+rect(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*22), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*137), myBitMoji.bitSize/100*100, myBitMoji.bitSize/100*74);
+triangle(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*2), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*188), myBitMoji.bitmojiX+(myBitMoji.bitSize/100*104), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*141), myBitMoji.bitmojiX+(myBitMoji.bitSize/100*23), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*130));
+triangle(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*144), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*186), myBitMoji.bitmojiX+(myBitMoji.bitSize/100*67), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*137), myBitMoji.bitmojiX+(myBitMoji.bitSize/100*121), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*130));
+
+stroke(0,0,0);
+fill(255,255,255);
+quad(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*48), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*133), myBitMoji.bitmojiX+(myBitMoji.bitSize/100*58), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*160), myBitMoji.bitmojiX+(myBitMoji.bitSize/100*67), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*164), myBitMoji.bitmojiX+(myBitMoji.bitSize/100*80), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*172)); // Medal
+quad(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*90), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*133), myBitMoji.bitmojiX+(myBitMoji.bitSize/100*58), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*160), myBitMoji.bitmojiX+(myBitMoji.bitSize/100*67), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*164), myBitMoji.bitmojiX+(myBitMoji.bitSize/100*80), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*154));
+
+fill(myBitMoji.bitmojiColor);
+ellipse(myBitMoji.bitmojiX+(myBitMoji.bitSize/100*73), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*170), myBitMoji.bitSize/100*20, myBitMoji.bitSize/100*20);
+
+if (myBitMoji.initials === true) {
+fill(133, 92, 15);
+textSize(myBitMoji.bitSize/100*35);
+text("MH", myBitMoji.bitmojiX+(myBitMoji.bitSize/100*49), myBitMoji.bitmojiY+(myBitMoji.bitSize/100*208));}
+};
+
+var drawBody = function(x,y,h)
+{
+    var p = h/100;
+    fill(245, 245, 220);
+quad(x+(p*18),y+(p*200),x+(p*37),y+(p*132),x+(p*100),y+(p*146),x+(p*99),y+(p*203)); //left side of sweater
+quad(x+(p*190),y+(p*200),x+(p*160),y+(p*132),x+(p*100),y+(p*146),x+(p*99),y+(p*203)); //left side of sweater
+
+stroke(255, 255, 255);
+strokeWeight(3);
+line(x+(p*48), y+(p*158), x+(p*48), y+(p*189)); //first vertical line of B
+line(x+(p*48), y+(p*158), x+(p*64), y+(p*166)); //first horizontal line of B
+line(x+(p*48), y+(p*174), x+(p*64), y+(p*166)); //second horizontal line of B
+line(x+(p*48), y+(p*174), x+(p*64), y+(p*181)); //third horizontal line of B
+line(x+(p*48), y+(p*189), x+(p*64), y+(p*181)); //fourth horizontal line of B
+
+line(x+(p*134), y+(p*158), x+(p*134), y+(p*189)); //first vertical line of R
+line(x+(p*134), y+(p*158), x+(p*150), y+(p*158)); //first horizontal line of R
+line(x+(p*152), y+(p*158), x+(p*152), y+(p*171)); //second vertical line of R
+line(x+(p*134), y+(p*171), x+(p*152), y+(p*171)); //second horizontal line of R
+line(x+(p*134), y+(p*171), x+(p*152), y+(p*189)); //third vertical line of R
+    };
+
+var drawHead = function (x,y,h)
+{
+    var p = h/100;
+    noStroke();
+    fill(111,79,29);
+arc(x+(p*100),y+(p*151),p*39,p*25,0,360); //neck
+    strokeWeight(2);
+stroke(219, 172, 52);
+line(x+(p*68), y+(p*139), x+(p*100), y+(p*170)); //left part of chain
+line(x+(p*132), y+(p*139), x+(p*100), y+(p*170)); //right part of chain
+line(x+(p*100), y+(p*165), x+(p*100), y+(p*176)); //vertical part of cross
+line(x+(p*96), y+(p*171), x+(p*103), y+(p*171)); //horizontal part of cross
+    
+    noStroke();
+fill(0, 0, 0);
+arc(x+(p*100),y+(p*143),p*39,p*25,0,360); //beard
+
+fill(111,79,29); //skin tone
+ellipse(x+(p*100),y+(p*100),p*83,p*100); //head
+
+fill(255, 255, 255);
+arc(x+(p*60),y+(p*122),p*18,p*23,0,360); //left chisel
+arc(x+(p*140),y+(p*122),p*18,p*23,0,360); //right chisel
+
+fill(232, 220, 202);
+ellipse(x+(p*100),y+(p*67),p*86,p*45); //top part of hat
+
+fill(92, 64, 51);
+ellipse(x+(p*100),y+(p*81),p*65,p*20); //bottom part of hat
+
+stroke(92, 64, 51);
+strokeWeight(2);
+line(x+(p*97), y+(p*50), x+(p*97), y+(p*65)); //left L top half
+line(x+(p*96), y+(p*66), x+(p*84), y+(p*66)); //left L bottom half
+line(x+(p*106), y+(p*50), x+(p*106), y+(p*65)); //right L top half
+line(x+(p*119), y+(p*66), x+(p*106), y+(p*66)); //right L bottom half
+
+
+line(x+(p*91), y+(p*59), x+(p*86), y+(p*70)); //left A top half
+line(x+(p*91), y+(p*59), x+(p*95), y+(p*70)); //left A bottom half
+line(x+(p*113), y+(p*59), x+(p*109), y+(p*70)); //right A top half
+line(x+(p*113), y+(p*59), x+(p*118), y+(p*70)); //right A bottom half
+
+stroke(10, 13, 31); //stroke to black for glasses
+fill(111,79,29); //fill to skin tone for around eye in glasses
+ellipse(x+(p*89),y+(p*100),p*18,p*16); //glasses left
+ellipse(x+(p*114),y+(p*100),p*18,p*16); //glasses right
+line(x+(p*99),y+(p*98),x+(p*103),y+(p*98)); // glasses nose bridge
+line(x+(p*61),y+(p*98),x+(p*79),y+(p*98)); //glasses side left
+line(x+(p*124),y+(p*98),x+(p*139),y+(p*98)); //glasses side right
+
+fill(99,78,52); //brown eyes fill
+ellipse(x+(p*90),y+(p*100),p*6,p*4); //left eye
+ellipse(x+(p*117),y+(p*100),p*6,p*4); //right eye
+
+fill(111,79,29); //fill to skin tone
+bezier(x+(p*100),y+(p*100),x+(p*121),y+(p*122),x+(p*92),y+(p*120),x+(p*96),y+(p*115)); //nose
+
+fill(222, 144, 27);
+arc(x+(p*103),y+(p*128),p*30,p*-1,-252,126); //mouth
+
+    };
+
+var drawBitmoji = function (x,y,h) 
+{
+    drawBody(x,y,h);
+    drawHead(x,y,h);
+};
+
+
+/* Copy in the Khan Button class */
+var Button = function(config) {
+    this.x = config.x || 0;
+    this.y = config.y || 0;
+    this.width = config.width || 140;
+    this.height = config.height || 38;
+    this.label = config.label || "Click";
+    this.onClick = config.onClick || function() {};
+};
+
+Button.prototype.draw = function() {
+    fill(255, 255, 255);
+    rect(this.x, this.y, this.width, this.height, 5);
+    fill(0, 0, 0);
+    textSize(19);
+    textAlign(LEFT, TOP);
+    text(this.label, this.x+10, this.y+this.height/4);
+};
+
+Button.prototype.isMouseInside = function() {
+    return mouseX > this.x &&
+           mouseX < (this.x + this.width) &&
+           mouseY > this.y &&
+           mouseY < (this.y + this.height);
+};
+
+Button.prototype.handleMouseClick = function() {
+    if (this.isMouseInside()) {
+        this.onClick();
+    }
+};
+
+var btn1 = new Button({
+    x: 133,
+    y: 326,
+    label: "       Start ",
+    onClick: function() {
+        if(currentScene === 0){
+            currentScene = 1;   
+        }
+        //memory
+        else if(currentScene === 2){
+            currentScene = 3;   
+        }
+        //frogger
+        else if(currentScene === 4){
+            currentScene = 5;
+        }
+        //tictactoe
+        else if (currentScene === 6){
+            currentScene = 7;
+        }
+        //pokemon
+        else if(currentScene === 12){
+            currentScene = 13;  
+        }
+         else if(currentScene === 13){
+            currentScene = 14;  
+            background(255, 255, 255);
+        }
+        else if(currentScene === 15){
+         currentScene = 16;   
+        }
+        else if(currentScene === 17){
+           currentScene = 18;
+    }
+    }
+});
+
+var btn2 = new Button({
+    x: 3,
+    y: 6,
+    width: 84,
+    height: 37,
+    label: "  Back",
+    onClick: function() {
+        if(currentScene === 1){
+        currentScene = 0;
+        }
+        else if(currentScene === 2 || currentScene === 4 || currentScene === 6 || currentScene === 12 || currentScene === 15 || currentScene === 17){
+            currentScene = 1;
+        }
+         else if(currentScene === 13){
+            currentScene = 12;  
+        }
+        
+    }
+});
+
+var btn3 = new Button({
+    x: 2,
+    y: 175,
+    width: 139,
+    height: 37,
+    label: "Memory Game",
+    onClick: function() {
+        currentScene = 2;
+    }
+});
+
+var btn4 = new Button({
+    x: 145,
+    y: 175,
+    width: 137,
+    height: 37,
+    label: "Frogger Game",
+    onClick: function() {
+        currentScene = 4;
+    }
+});
+
+var TicTacToe = new Button({
+    x: 286,
+    y: 175,
+    width: 111,
+    height: 37,
+    label: " TicTacToe ",
+    onClick: function() {
+        currentScene = 6;
+    }
+});
+
+var btn5 = new Button({
+    x: 13,
+    y: 353,
+    label: "      Pause",
+    onClick: function() {
+        if( stillPlaying === false && currentScene === 5) {
+            stillPlaying = true;
+            this.label ="      Pause";
+    }
+    else{
+        stillPlaying = false;
+        this.label ="     Resume";
+    }
+    }
+});
+
+var btn6 = new Button({
+    x: 248,
+    y: 355,
+    label: "      Home",
+    onClick: function() {
+        currentScene = 1;
+    }
+});
+
+var btn7 = new Button({
+    x: 31,
+    y: 355,
+    label: "      Restart",
+    onClick: function() {
+        if(currentScene === 8 ||currentScene === 9 ||currentScene === 10){
+        currentScene = 7;
+        }
+        else if(currentScene === 14){
+         currentScene = 12;   
+        }
+        else if(currentScene === 16){
+            currentScene = 15;
+        }
+        else if(currentScene === 18){
+            currentScene = 17;
+            for (var i = 0; i < dropxPositions.length; i++) {
+                fill(dropColor[i]);
+                ellipse(dropxPositions[i], dropyPositions[i], 10, 10);
+                dropyPositions[i] += dropSpeed[i];
+                if (dropyPositions[i] > 10) {
+                    dropyPositions[i] = random(-500, 0);
+                    dropxPositions[i] = random(10, width - 10);
+                }
+            }
+            for (var w = 0; w < starxPositions.length; w++) {
+                image(getImage("space/star"), starxPositions[w], staryPositions[w], 25, 25);
+                staryPositions[w] += dropSpeed[w];
+                    if (staryPositions[w] > 10) {
+                        staryPositions[w] = random(-500, 0);
+                        starxPositions[w] = random(10, width - 10);
+                    }
+            }
+            for (var j = 0; j < rockxPositions.length; j++) {
+                image(getImage("cute/Rock"), rockxPositions[j] - 12.5, rockyPositions[j], 25, 25);
+                rockyPositions[j] += dropSpeed[j];
+                    if (rockyPositions[j] > 10) {
+                        rockyPositions[j] = random(-500, 0);
+                        rockxPositions[j] = random(10, width - 10);
+                    }
+            }
+        }
+    }
+});
+
+var poke = new Button({
+    x: 2,
+    y: 330,
+    label: "    Pokemon",
+    onClick: function() {
+        currentScene = 12;
+        //background(255,255,255);
+    }
+});
+
+var dodge = new Button({
+    x: 145,
+    y: 330,
+    label: "    Dodgeball",
+    onClick: function() {
+        currentScene = 15;
+    }
+});
+
+var fruit = new Button({
+    x: 286,
+    y: 330,
+    width: 111,
+    height: 37,
+    label: " Fruit Ninja",
+    onClick: function() {
+        currentScene = 17;
+    }
+});
+
+var start = new Button({
+    x: 308,
+    y: 6,
+    width: 84,
+    height: 37,
+    label: "  Start ",
+    onClick: function() {
+        if(currentScene === 13){
+            currentScene = 14;  
+            background(255, 255, 255);
+        }
+        else if(currentScene === 16){
+            stillPlaying = true;   
+        }
+    }
+});
+
+
+    
+
+var startButton = new Button ({
+        x: width / 2 - 200, 
+        y: height / 2 + 130,
+        width: 150,
+        height: 50,
+        label: "   Start Timer",
+        onClick: function () {
+            startTime = millis();
+            stillPlaying = true;
+           
+        }
+});
+
+// Write a splashScreen function
+//Use the Khan Button class to have a start Button
+//- Have your name, your bitMoji, and instructions on the splash screen
+var splashScreen = function(){
+    background(209, 249, 255);
+    currentScene = 0;
+    fill(0, 0, 0);
+    textSize(15);
+    text("Brandon Rowe", 13, 377);
+    text("Michael Herchen", 280, 378, 300, 300);
+    textSize(30);
+    text("Game Dictionary", 90, 17);
+    textSize(20);
+    text("Welcome to the Game Dictionary! To begin your gaming journey, simply press the 'Start' button. This will lead you to a page brimming with diverse games. Click on a game of your choice, and detailed instructions will promptly appear. Get ready to dive into the world of gaming and enjoy the experience!", 42, 57, 350, 350);
+    fill(255, 255, 255);
+    ellipse(60,343,71,65);
+    ellipse(347,337,80,77);
+    drawBitmoji(30,301,30);
+    drawBit({
+    bitmojiX:325, 
+    bitmojiY:299, 
+    bitmojiColor: color(184, 122, 199),
+    bitSize: 30,
+    initials: true
+});
+    btn1.draw();
+};
+
+var home = function(){
+    background(255,240,245); 
+    currentScene = 1;
+    textSize(30);
+    text("Game Dictionary", 90, 6);
+    image(getImage("avatars/leaf-red"),22,81,100,100);
+    btn3.draw();
+    image(getImage("space/rocketship"),156,81,100,100);
+    btn4.draw();
+    //image(getImage("space/collisioncircle"),292,71,100,100);
+    fill(0, 0, 0);
+    textSize(80);
+    text("XO ", 285,85);
+    TicTacToe.draw();
+    image(getImage("avatars/aqualine-ultimate"),22,227,100,100);
+    poke.draw();
+    fill(196, 49, 81);
+    ellipse(213, 271, 100, 100);
+    dodge.draw();
+    image(getImage("cute/Rock"),288,227,100,100);
+    fruit.draw();
+    btn2.draw();
+};
+  
+var memorySplashScreen = function(){
+    background(186, 35, 121);
+    currentScene = 2;
+    fill(255, 255, 255);
+    textSize(15);
+    text("Brandon Rowe", 13, 377);
+    text("Michael Herchen", 280, 378, 300, 300);
+    textSize(18);
+    text("Welcome to the Memory Game! Begin by pressing the 'Start' button at the bottom. Upon reaching the game screen, please note that gameplay will commence only after pressing the 'Start Timer' button also located at the bottom of the screen. Upon completing the game, simply refresh the page to return to the splash screen. Enjoy, and give it your best shot!", 42, 72, 350, 350);
+    textSize(30);
+    text("Game Dictionary", 90, 6);
+    textSize(20);
+    text("", 42, 57, 350, 350);
+    fill(255, 255, 255);
+    ellipse(60,343,71,65);
+    ellipse(347,337,80,77);
+    drawBitmoji(30,301,30);
+    drawBit({
+    bitmojiX:325, 
+    bitmojiY:299, 
+    bitmojiColor: color(184, 122, 199),
+    bitSize: 30,
+    initials: true
+});
+    btn1.draw();
+    btn2.draw();
+};
+  
+var Tile = function(x, y, face) {
+    this.x = x;
+    this.y = y;
+    this.size = 75;
+    this.face = face;
+    this.isFaceUp = false;
+    this.isMatch = false;
+};
+
+Tile.prototype.draw = function() {
+    fill(245, 201, 211);
+    strokeWeight(2);
+    rect(this.x, this.y, this.size, this.size, 10);
+    if (this.isFaceUp) {
+        image(this.face, this.x, this.y, this.size, this.size);
+    } else {
+        image(getImage("avatars/leaf-red"), this.x, this.y, this.size, this.size);
+    }
+};
+
+Tile.prototype.isUnderMouse = function(x, y) {
+    return x >= this.x && x <= this.x + this.size  &&
+        y >= this.y && y <= this.y + this.size;
+};
+
+// Declare an array of all possible faces
+var faces = [
+    getImage("avatars/aqualine-seed"),
+    getImage("avatars/duskpin-seed"),
+    getImage("avatars/leafers-seed"),
+    getImage("avatars/piceratops-seed"),
+    getImage("avatars/primosaur-seed"),
+    getImage("avatars/starky-seed"),
+    getImage("creatures/Hopper-Cool"),
+    getImage("avatars/robot_male_1"),
+    getImage("avatars/orange-juice-squid"),
+    getImage("avatars/robot_female_1")
+];
+
+// Make an array which has 2 of each, then randomize it
+var possibleFaces = faces.slice(0);
+var selected = [];
+for (var i = 0; i < (NUM_COLS * NUM_ROWS) / 2; i++) {
+    // Randomly pick one from the array of remaining faces
+    var randomInd = floor(random(possibleFaces.length));
+    var face = possibleFaces[randomInd];
+    // Push twice onto array
+    selected.push(face);
+    selected.push(face);
+    // Remove from array
+    possibleFaces.splice(randomInd, 1);
+}
+
+// Now shuffle the elements of that array
+var shuffleArray = function(array) {
+    var counter = array.length;
+
+    // While there are elements in the array
+    while (counter > 0) {
+        // Pick a random index
+        var ind = Math.floor(Math.random() * counter);
+        // Decrease counter by 1
+        counter--;
+        // And swap the last element with it
+        var temp = array[counter];
+        array[counter] = array[ind];
+        array[ind] = temp;
+    }
+};
+shuffleArray(selected);
+
+// Create the tiles
+var tiles = [];
+for (var i = 0; i < NUM_COLS; i++) {
+    for (var j = 0; j < NUM_ROWS; j++) {
+        var tileX = i * 80;
+        var tileY = j * 80;
+        var tileFace = selected.pop();
+        tiles.push(new Tile(tileX, tileY, tileFace));
+    }
+}
+
+background(255, 255, 255);
+
+var numTries = 0;
+var numMatches = 0;
+var flippedTiles = [];
+var delayStartFC = null;
+
+
+
+var memory = function() {
+    background(186, 35, 121);
+    currentScene = 3;
+    startButton.draw();
+    if (stillPlaying === true){
+    var currentTime = floor((millis() - startTime) / 1000);
+    fill(0);
+    text("Time: " + currentTime + " seconds", 160, 329);
+    text("Tries: " + numTries + " tries", 160, 350);
+    }
+    if (delayStartFC && (frameCount - delayStartFC) > 30) {
+        for (var i = 0; i < tiles.length; i++) {
+            var tile = tiles[i];
+            if (!tile.isMatch) {
+                tile.isFaceUp = false;
+            }
+        }
+        flippedTiles = [];
+        delayStartFC = null;
+    }
+    
+    for (var i = 0; i < tiles.length; i++) {
+        tiles[i].draw();
+    }
+    
+    if (numMatches === tiles.length/2) {
+        fill(0, 0, 0);
+        textSize(20);
+        text("You found them in " + numTries + " tries!", 160, 370);
+        stillPlaying = false;
+        noLoop();
+    }
+   
+};
+
+var score = 0;
+var nextScore = 1; //1 = next score at the top, 2  = next score at the bottom
+var numRockets = 100;
+var stillPlaying = true;
+
+var froggerSplashScreen = function(){
+    background(114,114,114);
+    fill(0, 0, 0);
+    currentScene = 4;
+    textSize(30);
+    text("Game Dictionary", 90, 6);
+    textSize(15);
+    text("Brandon Rowe", 13, 377);
+    text("Michael Herchen", 280, 378, 300, 300);
+    textSize(18);
+    text("Welcome to the Frogger Game! Press the 'Start' button to initiate the game. Once started, you'll be thrust into action. Utilize the space bar to jump across the street, earning a point for each successful crossing. Be cautious – colliding with a 'car' deducts 1 point. Pause the game using the 'Pause' button at the bottom left, and when finished, hit 'Home' to return. Enjoy the challenge!" , 42, 57, 350, 350);
+    fill(183, 173, 163);
+    ellipse(60,343,71,65);
+    ellipse(347,337,80,77);
+    drawBitmoji(30,301,30);
+    drawBit({
+    bitmojiX:325, 
+    bitmojiY:299, 
+    bitmojiColor: color(184, 122, 199),
+    bitSize: 30,
+    initials: true
+});
+    btn1.draw();
+    btn2.draw();
+    
+};
+
+var Bitmoji = function(x,y,h) {
+    this.x = x;
+    this.y = y; 
+    this.bitmoji = drawBitmoji(this.x,this.y,20);
+    this.sticks = 0;
+};
+
+Bitmoji.prototype.draw = function() {
+    this.y = constrain(this.y, -20, height-60);
+    drawBitmoji( this.x, this.y,30);
+    if (nextScore === 1 && this.y <0) {score++; nextScore = 2; }
+    if (nextScore === 2 && this.y > 330) {score++; nextScore = 1;} 
+    
+};
+
+Bitmoji.prototype.hop = function() {
+    this.y -= 5;
+};
+
+Bitmoji.prototype.fall = function() {
+    this.y += 5;
+};
+
+Bitmoji.prototype.checkForRocketShipGrab = function(stick) {
+    if ((stick.x >= (this.x - 20) && stick.x <= (this.x + 50)) &&
+        (stick.y >= (this.y - 10)  && stick.y <= (this.y + 40))) {
+        stick.y = -400;
+        score--;
+    }
+};
+
+var RocketShip = function(x, y) {
+    this.x = x;
+    this.y = y;
+    this.img = getImage("space/rocketship");
+};
+
+RocketShip.prototype.draw = function() {
+    image(this.img,this.x, this.y, 50, 50);
+};
+ 
+var bitmoji = new Bitmoji(175, 2000);
+
+var rocketShips = [];
+
+var frogger = function() {
+    currentScene = 5;
+    // static
+    background(114,114,114);
+    fill(183, 173, 163);
+    rectMode(CORNER);
+    rect(0, height*0.86, width, height*1.50);
+    rect(0, height*0.00, width, height*0.13);
+    
+    fill(240, 240, 22);
+    for(var i = 0; i < 55; i++){
+    rect(i*71, 182, 47, 14);
+}
+    
+    fill(255, 255, 255);
+    textSize(18);
+    text("Score: " + score, 20, 8);
+ 
+    if(stillPlaying === true){
+        for (var i = 0; i < rocketShips.length; i++) {
+        rocketShips[i].draw(); 
+        bitmoji.checkForRocketShipGrab(rocketShips[i]);
+        rocketShips[i].x += 1;
+        if(rocketShips[i].x > 10400)
+    {
+         stillPlaying = false;
+    }
+    } 
+    if(score > 5){
+      for (var i = 0; i < rocketShips.length; i++) {
+        rocketShips[i].draw(); 
+        bitmoji.checkForRocketShipGrab(rocketShips[i]);
+        rocketShips[i].x += 1.5;
+    }
+    if(score > 9){
+      for (var i = 0; i < rocketShips.length; i++) {
+        rocketShips[i].draw(); 
+        bitmoji.checkForRocketShipGrab(rocketShips[i]);
+        rocketShips[i].x += 2;
+    }
+    } 
+    }
+    
+    if (keyIsPressed && key.code === 32) {
+        bitmoji.hop();
+    } else {
+        bitmoji.fall();
+    }
+    }
+    else{text(" Hit the 'Home' button to return Home", 100, 8);}
+       bitmoji.draw();
+       btn5.draw(); 
+       btn6.draw();
+};
+
+var playerTurn = 0;
+var NUM_COLS = 3;
+var NUM_ROWS = 3;
+var SYMBOLS = ["X","O"];
+var numTurns = 0;
+
+var tile = []; //array of tiles
+/* 0 3 6
+   1 4 7
+   2 5 8
+   */
+var checkWin = function() {
+    //check for column 1
+   if(tile[0].label === tile[1].label && tile[1].label === tile[2].label && !tile[0].empty())
+   {return true;}
+   //check for column 2
+   if(tile[3].label === tile[4].label && tile[4].label === tile[5].label && !tile[3].empty())
+   {return true;}
+   //check for column 3
+   if(tile[6].label === tile[7].label && tile[7].label === tile[8].label && !tile[6].empty())
+   {return true;}
+   //check for row 1
+   if(tile[0].label === tile[3].label && tile[3].label === tile[6].label && !tile[0].empty())
+   {return true;}
+   //check for row 2
+   if(tile[1].label === tile[4].label && tile[4].label === tile[7].label && !tile[1].empty())
+   {return true;}
+   //check for row 3
+   if(tile[2].label === tile[5].label && tile[5].label === tile[8].label && !tile[2].empty())
+   {return true;}
+   //check for diagnal 1
+   if(tile[0].label === tile[4].label && tile[4].label === tile[8].label && !tile[0].empty())
+   {return true;}
+   //checl for diagnal 2
+   if(tile[2].label === tile[4].label && tile[4].label === tile[6].label && !tile[2].empty())
+   {return true;}
+};
+
+var Tiles = function(x, y) {
+    this.x = x;
+    this.y = y;
+    this.size = width/NUM_COLS;
+    this.label = "";
+    
+};
+
+
+Tiles.prototype.draw = function() {
+    //Tiles
+    fill(169, 196, 245);
+    strokeWeight(2);
+    rect(this.x, this.y, this.size, this.size, 10);
+    //X and O
+    textSize(100);
+    textAlign(CENTER, CENTER);
+    fill(0, 0, 0);
+    if(stillPlaying === true){
+    text(this.label, this.x+this.size/2, this.y+this.size/2);
+    }
+    else if(stillPlaying === false){
+     text(this.label = "", this.x+this.size/2, this.y+this.size/2);   
+    }
+};
+
+Tiles.prototype.empty = function() {
+    return this.label === "";
+};
+
+Tiles.prototype.onClick = function() {
+     // If the tile is not empty, exit the function
+    if(!this.empty()){
+        return;   
+    }
+  
+     // Put the player's symbol on the tile
+    this.label = SYMBOLS[playerTurn];
+  
+     // Change the turn
+    playerTurn++;
+    if(playerTurn >= SYMBOLS.length) {
+        playerTurn = 0;
+    }
+    numTurns ++;
+};
+
+Tiles.prototype.handleMouseClick = function(x, y) {
+    if ( x >= this.x && x <= this.x + this.size && y >= this.y && y <= this.y + this.size)
+    {
+        this.onClick();
+    }
+    // Check for mouse clicks inside the tile
+};
+
+for (var i = 0; i < NUM_COLS; i++) {
+    for (var j = 0; j < NUM_ROWS; j++) {
+        tile.push(new Tiles(i * (width/NUM_COLS-1), j * (height/NUM_ROWS-1)));
+    }
+}
+
+var drawTiles = function() {
+    for (var i in tile) {
+        tile[i].draw();
+    }
+};
+
+
+mouseReleased = function() {
+    if(stillPlaying === true && currentScene ===7){
+    for (var i in tile) {
+        tile[i].handleMouseClick(mouseX, mouseY);
+    }
+    }
+};
+
+var ticTacToeSplashScreen = function(){
+    currentScene = 6;
+    background(88, 57, 39);
+    fill(225, 198, 153);
+    textSize(30);
+    text("Game Dictionary", 90, 6);
+    textSize(15);
+    text("Brandon Rowe", 13, 377);
+    text("Michael Herchen", 280, 378, 300, 300);
+    textSize(17);
+    text("Welcome to Tic-Tac-Toe! To begin the game, simply press the 'Start' button. Player 1 will be 'X,' and Player 2 will be 'O.' After starting, you'll be taken straight into the game. Your objective is to get three in a row to win. Once the game concludes, you'll be directed to a screen reflecting the outcome. From there, you can choose to return home using the 'Home' button or restart the game with the 'Restart' button. Best of luck, and most importantly, enjoy the game!" , 42, 47, 350, 350);
+    fill(225, 198, 153);
+    ellipse(60,343,71,65);
+    ellipse(347,337,80,77);
+    drawBitmoji(30,301,30);
+    drawBit({
+    bitmojiX:325, 
+    bitmojiY:299, 
+    bitmojiColor: color(184, 122, 199),
+    bitSize: 30,
+    initials: true
+});
+    btn1.draw();
+    btn2.draw();
+};
+
+var ticTacToe = function() {
+    currentScene = 7;
+    background(255, 255, 255);
+    
+    drawTiles();
+    
+    if (checkWin()){
+        if (numTurns === 5 || numTurns === 7 ||numTurns === 9) 
+        { 
+            //X wins
+            currentScene = 8;
+         
+        }
+            //O Wins
+        if (numTurns === 6 || numTurns === 8) 
+        { 
+            currentScene = 9;
+         
+        }
+        }
+            //Draw
+        else if(numTurns === 9){
+            currentScene = 10;
+       
+        }
+        
+    if (stillPlaying === false) {
+        numTurns = 0;
+        playerTurn = 0;
+        drawTiles();
+        currentScene = 7;
+    }
+    
+};
+
+var resetTictactoe = function() {
+    background(255, 255, 255);
+    currentScene = 11;
+    drawTiles();
+    if (checkWin()){
+        if (numTurns === 5 || numTurns === 7 ||numTurns === 9) 
+        { 
+            //X wins
+            currentScene = 8;
+        }
+            //O Wins
+        if (numTurns === 6 || numTurns === 8) 
+        { 
+            currentScene = 9;
+        }
+            //Draw
+        else if(numTurns === 9){
+            currentScene = 10;
+        }
+    }
+};
+
+var XWins = function(){
+    currentScene = 8;
+    stillPlaying = false;
+    background(225, 198, 153);
+        fill(88, 57, 39);
+        rect(40, 10, 335, 100);
+        fill(0);
+        textSize(70);
+        text ( "X-Winner", 67, 16);
+        fill(88, 57, 39);
+        textSize(17);
+        text("Congratulations, Player 1 - YOU WIN! Commiserations to Player 2; perhaps it's time to head back to the drawing board. Thanks for playing! If you'd like to play again, hit 'Restart,' or go back home by pressing 'Home.'", 40, 117,355,425);
+        textSize(20);
+        image(getImage("creatures/Hopper-Cool"),2,241,50,50);
+        text("Player 1:", 55, 256);
+        for (var x = 8; x < 33; x += 6) {
+    image(getImage("cute/Star"),x*8 + 73 ,217,70,83);
+        }
+        image(getImage("creatures/OhNoes"),2,298,50,50);
+        text("Player 2:", 55, 311);
+        for (var x = 8; x < 13; x += 6) {
+    image(getImage("cute/Star"),x*8 + 73 ,271,70,83);
+        }
+        btn6.draw();
+        btn7.draw();
+    
+};
+
+var OWins = function(){
+    currentScene = 9;
+    stillPlaying = false;
+     background(88, 57, 39);
+        fill(225, 198, 153);
+        rect(40, 10, 335, 100);
+        fill(0);
+        textSize(70);
+        text ( "O-Winner", 61, 16);
+        fill(225, 198, 153);
+        textSize(17);
+        text("Congratulations, Player 2 - YOU WIN! Commiserations to Player 1; perhaps it's time to head back to the drawing board. Thanks for playing! If you'd like to play again, hit 'Restart,' or go back home by pressing 'Home.'", 40, 118,355,425);
+        textSize(20);
+        image(getImage("avatars/starky-sapling"),2,241,50,50);
+        text("Player 1:", 55, 256);
+        for (var x = 8; x < 13; x += 6) {
+    image(getImage("cute/Star"),x*8 + 73 ,217,70,83);
+        }
+        image(getImage("creatures/OhNoes-Happy"),2,298,50,50);
+        text("Player 2:", 55, 311);
+        for (var x = 8; x < 33; x += 6) {
+    image(getImage("cute/Star"),x*8 + 73 ,271,70,83);
+        }
+        btn6.draw();
+        btn7.draw();
+    
+};
+
+var noOneWins = function(){
+     currentScene = 10;
+     stillPlaying = false;
+     background(88, 57, 39);
+        fill(225, 198, 153);
+        rect(40, 10, 335, 100);
+        fill(0);
+        textSize(70);
+        text ( "Draw", 132, 16);
+        fill(225, 198, 153);
+        textSize(17);
+        text("Looks like you're evenly matched! Want to settle the score and find out who's truly better? Hit the 'Restart' button for another round. If you've had your fill, press 'Home' to head home. Thanks for playing—enjoy the other games!", 40, 110,355,425);
+        textSize(20);
+        image(getImage("avatars/mr-pants-orange"),2,241,50,50);
+        text("Player 1:", 55, 256);
+        for (var x = 8; x < 23; x += 6) {
+    image(getImage("cute/Star"),x*11 + 47 ,217,70,83);
+        }
+        image(getImage("avatars/spunky-sam-green"),2,298,50,50);
+        text("Player 2:", 55, 311);
+        for (var x = 8; x < 23; x += 6) {
+    image(getImage("cute/Star"),x*11 + 47 ,271,70,83);
+        }
+        btn6.draw();
+        btn7.draw();
+};
+
+
+var player_score = 0;
+var computer_score = 0;
+var tie_score = 0;
+
+var computer_choice = round(random(0.5, 6.4));  //1=Aqua, 2=Dusk, 3=Leaf, 4=Picer, 5=Primo, 6=Starky
+
+
+var pokemonSplashScreen = function(){
+    currentScene = 12;
+    background(255, 255, 255);
+    fill(0, 0, 0);
+    textSize(15);
+    text("Brandon Rowe", 13, 383);
+    text("Michael Herchen", 280, 383, 300, 300);
+    textSize(16);
+    text("Welcome to the Pokemon Game! Click on the 'Start' button to navigate to the instructions page, where you'll learn the rules to win. Once you're ready, find another 'Start' button to dive into the game.", 39, 44, 350, 350);
+    text("Select a 'Pokemon' and based on your opponent's choice, you'll either win, lose, or tie. Play to your heart's content, and when you're ready to take a break, hit the 'Home' button to return. If you want to restart the score and catch 'em all over again, use the 'Restart' button.", 39, 154, 350, 350);
+    text("Enjoy the game, and may you catch 'em all!", 39, 287, 350, 350);
+    textSize(30);
+    text("Game Dictionary", 90, 6);
+    textSize(20);
+    text("", 42, 57, 350, 350);
+    fill(255, 255, 255);
+    ellipse(60,351,71,65);
+    ellipse(347,345,80,77);
+    drawBitmoji(29,310,30);
+    drawBit({
+    bitmojiX:325, 
+    bitmojiY:308, 
+    bitmojiColor: color(184, 122, 199),
+    bitSize: 30,
+    initials: true
+    });
+    btn1.draw();
+    btn2.draw();
+    
+};
+
+var pokemonTypeChart = function() {
+    background(255, 255, 255);
+    currentScene = 13;
+    start.draw();
+    btn2.draw();
+    textSize(30);
+    text("Type Chart", 125, 6);
+    //Aqua type chart
+    fill(0, 255, 255);
+    rect(1, 46 , 106, 168);
+    fill(0, 0, 0);
+    image(getImage("avatars/aqualine-ultimate"), 3, 45, 30, 30 );
+    textSize(30);
+    text("=", 44, 39);
+    image(getImage("avatars/aqualine-ultimate"), 72, 45, 30, 30 );
+    image(getImage("avatars/aqualine-ultimate"), 3, 73, 30, 30 );
+    textSize(30);
+    text(">", 44, 68);
+    image(getImage("avatars/duskpin-ultimate"), 72, 73, 30, 30 );
+    image(getImage("avatars/aqualine-ultimate"), 3, 101, 30, 30 );
+    textSize(30);
+    text("<", 44, 94);
+    image(getImage("avatars/leafers-ultimate"), 72, 101, 30, 30 );
+    image(getImage("avatars/aqualine-ultimate"), 3, 129, 30, 30 );
+    textSize(30);
+    text(">", 44, 122);
+    image(getImage("avatars/piceratops-ultimate"), 72, 129, 30, 30 );
+    image(getImage("avatars/aqualine-ultimate"), 3, 155, 30, 30 );
+    textSize(30);
+    text("<", 44, 151);
+    image(getImage("avatars/primosaur-ultimate"), 72, 153, 30, 30 );
+    image(getImage("avatars/aqualine-ultimate"), 3, 181, 30, 30 );
+    textSize(30);
+    text("=", 44, 176);
+    image(getImage("avatars/starky-ultimate"), 72, 181, 30, 30 );
+    //Picer type chart
+    fill(207, 25, 32);
+    rect(1, 216 , 106, 183);
+    fill(0, 0, 0);
+    image(getImage("avatars/piceratops-ultimate"), 3, 218, 30, 30 );
+    textSize(30);
+    text("=", 44, 244);
+    image(getImage("avatars/aqualine-ultimate"), 72, 218, 30, 30 );
+    image(getImage("avatars/piceratops-ultimate"), 3, 247, 30, 30 );
+    textSize(30);
+    text(">", 44, 274);
+    image(getImage("avatars/duskpin-ultimate"), 72, 247, 30, 30 );
+    image(getImage("avatars/piceratops-ultimate"), 3, 276, 30, 30 );
+    textSize(30);
+    text(">", 44, 364);
+    image(getImage("avatars/leafers-ultimate"), 72, 276, 30, 30 );
+    image(getImage("avatars/piceratops-ultimate"), 3, 305, 30, 30 );
+    textSize(30);
+    text("<", 44, 334);
+    image(getImage("avatars/piceratops-ultimate"), 72, 305, 30, 30 );
+    image(getImage("avatars/piceratops-ultimate"), 3, 336, 30, 30 );
+    textSize(30);
+    text("<", 44, 212);
+    image(getImage("avatars/primosaur-ultimate"), 72, 336, 30, 30 );
+    image(getImage("avatars/piceratops-ultimate"), 3, 369, 30, 30 );
+    textSize(30);
+    text("=", 44, 302);
+    image(getImage("avatars/starky-ultimate"), 72, 369, 30, 30 );
+    //Primo type chart
+    fill(248, 227, 126);
+    rect(145, 216 , 106, 183);
+    fill(0, 0, 0);
+    image(getImage("avatars/primosaur-ultimate"), 149, 218, 30, 30 );
+    textSize(30);
+    text("<", 191, 244);
+    image(getImage("avatars/aqualine-ultimate"), 218, 218, 30, 30 );
+    image(getImage("avatars/primosaur-ultimate"), 149, 247, 30, 30 );
+    textSize(30);
+    text("=", 191, 274);
+    image(getImage("avatars/duskpin-ultimate"), 218, 247, 30, 30 );
+    image(getImage("avatars/primosaur-ultimate"), 149, 276, 30, 30 );
+    textSize(30);
+    text("<", 191, 364);
+    image(getImage("avatars/leafers-ultimate"), 218, 276, 30, 30 );
+    image(getImage("avatars/primosaur-ultimate"), 149, 305, 30, 30 );
+    textSize(30);
+    text("=", 191, 334);
+    image(getImage("avatars/piceratops-ultimate"), 218, 305, 30, 30 );
+    image(getImage("avatars/primosaur-ultimate"), 149, 336, 30, 30 );
+    textSize(30);
+    text(">", 191, 212);
+    image(getImage("avatars/primosaur-ultimate"), 218, 336, 30, 30 );
+    image(getImage("avatars/primosaur-ultimate"), 149, 369, 30, 30 );
+    textSize(30);
+    text(">", 191, 302);
+    image(getImage("avatars/starky-ultimate"), 218, 369, 30, 30 );
+    //Dusk type chart
+    fill(220, 208, 255);
+    rect(145, 46 , 106, 168);
+    fill(0, 0, 0);
+    image(getImage("avatars/duskpin-ultimate"), 149, 45, 30, 30 );
+    textSize(30);
+    text("<", 191, 39);
+    image(getImage("avatars/aqualine-ultimate"), 218, 45, 30, 30 );
+    image(getImage("avatars/duskpin-ultimate"), 149, 73, 30, 30 );
+    textSize(30);
+    text("=", 191, 68);
+    image(getImage("avatars/duskpin-ultimate"), 218, 73, 30, 30 );
+    image(getImage("avatars/duskpin-ultimate"), 149, 101, 30, 30 );
+    textSize(30);
+    text(">", 191, 94);
+    image(getImage("avatars/leafers-ultimate"), 218, 101, 30, 30 );
+    image(getImage("avatars/duskpin-ultimate"), 149, 129, 30, 30 );
+    textSize(30);
+    text("=", 191, 122);
+    image(getImage("avatars/piceratops-ultimate"), 218, 129, 30, 30 );
+    image(getImage("avatars/duskpin-ultimate"), 149, 156, 30, 30 );
+    textSize(30);
+    text(">", 191, 151);
+    image(getImage("avatars/primosaur-ultimate"), 218, 156, 30, 30 );
+    image(getImage("avatars/duskpin-ultimate"), 149, 183, 30, 30 );
+    textSize(30);
+    text("<", 191, 176);
+    image(getImage("avatars/starky-ultimate"), 218, 183, 30, 30 );
+    //Leaf type chart
+    fill(97, 138, 61);
+    rect(293, 46 , 106, 168);
+    fill(0, 0, 0);
+    image(getImage("avatars/leafers-ultimate"), 298, 45, 30, 30 );
+    textSize(30);
+    text(">", 338, 39);
+    image(getImage("avatars/aqualine-ultimate"), 367, 45, 30, 30 );
+    image(getImage("avatars/leafers-ultimate"), 298, 73, 30, 30 );
+    textSize(30);
+    text("<", 338, 68);
+    image(getImage("avatars/duskpin-ultimate"), 367, 73, 30, 30 );
+    image(getImage("avatars/leafers-ultimate"), 298, 101, 30, 30 );
+    textSize(30);
+    text("=", 338, 94);
+    image(getImage("avatars/leafers-ultimate"), 367, 101, 30, 30 );
+    image(getImage("avatars/leafers-ultimate"), 298, 129, 30, 30 );
+    textSize(30);
+    text("<", 338, 122);
+    image(getImage("avatars/piceratops-ultimate"), 367, 129, 30, 30 );
+    image(getImage("avatars/leafers-ultimate"), 298, 156, 30, 30 );
+    textSize(30);
+    text("=", 338, 151);
+    image(getImage("avatars/primosaur-ultimate"), 367, 156, 30, 30 );
+    image(getImage("avatars/leafers-ultimate"), 298, 183, 30, 30 );
+    textSize(30);
+    text(">", 338, 176);
+    image(getImage("avatars/starky-ultimate"), 367, 183, 30, 30 );
+    //Starky type chart
+    fill(162, 153, 150);
+    rect(293, 216 , 106, 183);
+    fill(0, 0, 0);
+    image(getImage("avatars/starky-ultimate"), 298, 218, 30, 30 );
+    textSize(30);
+    text(">", 338, 244);
+    image(getImage("avatars/aqualine-ultimate"), 367, 218, 30, 30 );
+    image(getImage("avatars/starky-ultimate"), 298, 247, 30, 30 );
+    textSize(30);
+    text("<", 338, 274);
+    image(getImage("avatars/duskpin-ultimate"), 367, 247, 30, 30 );
+    image(getImage("avatars/starky-ultimate"), 298, 276, 30, 30 );
+    textSize(30);
+    text("=", 338, 364);
+    image(getImage("avatars/leafers-ultimate"), 367, 276, 30, 30 );
+    image(getImage("avatars/starky-ultimate"), 298, 305, 30, 30 );
+    textSize(30);
+    text(">", 338, 334);
+    image(getImage("avatars/piceratops-ultimate"), 367, 305, 30, 30 );
+    image(getImage("avatars/starky-ultimate"), 298, 336, 30, 30 );
+    textSize(30);
+    text("=", 338, 212);
+    image(getImage("avatars/primosaur-ultimate"), 367, 336, 30, 30 );
+    image(getImage("avatars/starky-ultimate"), 298, 369, 30, 30 );
+    textSize(30);
+    text("<", 338, 302);
+    image(getImage("avatars/starky-ultimate"), 367, 369, 30, 30 );
+  
+    
+};
+
+var pokemon = function() {
+    currentScene = 14;
+    //strokeWeight(6);
+    btn6.draw();
+    btn7.draw();
+    //background(255,255,255);
+    //Text out instructions
+    fill(255, 255, 255);
+    
+    //rect(2, 200 , 400, 140);
+    fill(0, 0, 0);
+    //noStroke();
+    textSize(20);
+    text ("Choose Your Pokemon!", 100, 4);
+    fill(10, 52, 99);
+    rect(1, 32 , 120, 85);
+    fill(0, 255, 255);
+    text ("Aqua", 10, 49);
+    text ("(Water)", 5, 69);
+    image(getImage("avatars/aqualine-ultimate"), 60, 35, 50, 50 );
+    fill(106,13,173);
+    rect(123, 32 , 143, 85);
+    fill(220, 208, 255);
+    text ("Dusk", 157, 49);
+    text ("(Psychic)", 136, 69);
+    image(getImage("avatars/duskpin-ultimate"), 210, 35, 50, 50 );
+    fill(126, 200, 80);
+    rect(267, 32 , 132, 85);
+    fill(97, 138, 61);
+    text ("Leaf", 297, 49);
+    text ("(Grass)", 281, 69);
+    image(getImage("avatars/leafers-ultimate"), 343, 35, 50, 50 );
+    fill(139, 0, 0);
+    rect(1, 119 , 120, 80);
+    fill(224, 141, 141);
+    text ("Picer", 10, 135);
+    text ("(Fire)", 8, 155);
+    image(getImage("avatars/piceratops-ultimate"), 60, 128, 50, 50 );
+    fill(213,181,110);
+    rect(123, 119 , 143, 80);
+    fill(248, 227, 126);
+    text ("Primo", 150, 135);
+    text ("(Eletric)", 140, 153);
+    image(getImage("avatars/primosaur-ultimate"), 208, 116, 50, 50 );
+    fill(224, 224, 224);
+    rect(267, 119 , 132, 80);
+    fill(162, 153, 150);
+    text ("Starky", 300, 135);
+    text ("(Steel)", 298, 156);
+    image(getImage("avatars/starky-ultimate"), 350, 133, 50, 50 );
+    fill(255, 255, 255);
+    rect(0,330,400,18); // rect to blank out previous score
+    fill(0, 0, 0);
+    textSize(14);
+    text ("Player Score: " + player_score + "   Computer Score: " + computer_score + "   Tie: " + tie_score, 50,330);
+    
+};
+
+
+var balls = [];
+var score = 0;
+var gameOver = false;
+var startTime;
+var stillPlaying = false;
+
+
+var Ball = function() {
+    this.x = random(20, 380);
+    this.y = random(20, 380);
+    this.speedX = random(-3, 3);
+    this.speedY = random(-3, 3);
+    this.radius = 15;
+
+    this.update = function() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.x + this.radius >= 400 || this.x - this.radius <= 0) {
+            this.speedX *= -1;
+        }
+        if (this.y + this.radius >= 400 || this.y - this.radius <= 0) {
+            this.speedY *= -1;
+        }
+
+        // Draw the ball
+        fill(196, 49, 81);
+        ellipse(this.x, this.y, this.radius * 2, this.radius * 2);
+    };
+};
+
+var addBall = function() {
+    if (gameOver === false) {
+        var newBall = new Ball();
+        balls.push(newBall);
+    }
+};
+
+var dodgeBall = function() {
+    background(255);
+    currentScene = 16;
+    start.draw();
+    btn6.draw();
+    btn7.draw();
+
+    
+    for (var i = 0; i < balls.length; i++) {
+        balls[i].update();
+        if (dist(mouseX, mouseY, balls[i].x, balls[i].y) < balls[i].radius && gameOver === false) {
+            gameOver = true;
+        }
+    }
+
+    if (gameOver === true) {
+        textSize(40);
+        textAlign(CENTER, CENTER);
+        fill(255, 0, 0);
+        text("Game Over!", 200, 150);
+        this.speedX = 0;
+        this.speedY = 0;
+        textSize(20);
+        text("You were able to evade " + score + " DodgeBalls", 200, 180);
+    } 
+    else if (frameCount % 120 === 0 && stillPlaying === true) {
+            score++;
+        }
+    
+
+    textSize(20);
+    textAlign(LEFT, TOP);
+    fill(0);
+    text("Score: " + score, 20, 20);
+    
+
+    if (gameOver === false && frameCount % 120 === 0 && stillPlaying === true) {
+        addBall();
+    }
+};
+
+var dodgeBallSplashScreen = function(){
+    background(0, 0, 0);
+    currentScene = 15;
+    fill(255, 255, 255);
+    textSize(30);
+    text("Game Dictionary", 90, 6);
+    textSize(15);
+    text("Brandon Rowe", 13, 377);
+    text("Michael Herchen", 280, 378, 300, 300);
+    textSize(15);
+    text("Get ready for an adrenaline-packed experience where dodgeballs come flying at you, and it's your job to skillfully dodge them using your mouse. Follow these simple steps to dive into the action:",42, 43, 350, 350);
+
+text("1. Click the 'Start' button located at the bottom of your screen to enter the game interface.",42, 126, 350, 350);
+text("2. Once inside, hit another 'Start' button to kick off the dodgeball mayhem.",42, 168, 350, 350);
+text("Feel the need for a fresh start? Click the 'Restart' button. Had your fill and ready to call it a day? Hit the 'Home' button to return." , 42, 208, 350, 350);
+text("Good luck with your dodging skills, and most importantly, have a blast!" , 42, 270, 350, 350);
+    fill(255, 255, 255);
+    ellipse(60,343,71,65);
+    ellipse(347,337,80,77);
+    drawBitmoji(30,301,30);
+    drawBit({
+    bitmojiX:325, 
+    bitmojiY:299, 
+    bitmojiColor: color(184, 122, 199),
+    bitSize: 30,
+    initials: true
+});
+    btn1.draw();
+    btn2.draw();
+    
+};
+
+var numDrops = 15;
+var numRocks = 3;
+var numStars = 1;
+
+var dropSpeed = [];
+var dropxPositions = [];
+var dropyPositions = [];
+var starxPositions = [];
+var staryPositions = [];
+var rockxPositions = [];
+var rockyPositions = [];
+var dropColor = [];
+var gscore = 0;
+
+var player1X = 200;
+var PLAYER_MOVE_SPEED = 4;
+var PADDLE_HEIGHT = 20;
+var PADDLE_WIDTH = 50;
+
+var drawPlayer = function() {
+    fill(148, 87, 8);
+    rect(player1X, 300, PADDLE_WIDTH, PADDLE_HEIGHT);
+};
+
+for (var i = 1; i <= numDrops; ++i) {
+    dropxPositions.push(round(random(10, 390)));
+    dropyPositions.push(round(random(-500, 0)));
+    dropColor.push(color(round(random(0, 255)), round(random(0, 255)), round(random(0, 255))));
+    dropSpeed.push(round(random(2, 5)));
+}
+
+for (var j = 1; j <= numRocks; ++j) {
+    rockxPositions.push(round(random(10, 390)));
+    rockyPositions.push(round(random(-500, 0)));
+    dropColor.push(color(round(random(0, 255)), round(random(0, 255)), round(random(0, 255))));
+    dropSpeed.push(round(random(3, 7)));
+}
+
+for (var w = 1; w <= numStars; ++w) {
+    starxPositions.push(round(random(10, 390)));
+    staryPositions.push(round(random(-500, 0)));
+    dropColor.push(color(round(random(0, 255)), round(random(0, 255)), round(random(0, 255))));
+    dropSpeed.push(round(random(1, 2)));
+}
+
+
+var fruitNinji = function() {
+    background(255, 204, 204);
+    currentScene = 18;
+    noStroke();
+    fill(0, 0, 0);
+    textSize(20);
+    text( "Score:" + gscore, 10, 20);
+    btn6.draw();
+    btn7.draw();
+
+    if (keyIsPressed) {
+        if (keyCode === LEFT) {
+            player1X -= PLAYER_MOVE_SPEED;
+        } else if (keyCode === RIGHT) {
+            player1X += PLAYER_MOVE_SPEED;
+        }
+    }
+
+    // Ensure the paddle stays within the canvas bounds
+    player1X = constrain(player1X, 0, width - PADDLE_WIDTH);
+
+    drawPlayer();
+
+    for (var i = 0; i < dropxPositions.length; i++) {
+        fill(dropColor[i]);
+        ellipse(dropxPositions[i], dropyPositions[i], 10, 10);
+        dropyPositions[i] += dropSpeed[i];
+        //////////////////
+        if (dropyPositions[i] > 400) {
+            dropyPositions[i] = random(-500, 0);
+            dropxPositions[i] = random(10, width - 10);
+        }
+        
+        if (dropyPositions[i] + dropSpeed[i] >= 300 && dropyPositions[i] + dropSpeed[i] <=          300 + PADDLE_HEIGHT && dropxPositions[i] >= player1X && dropxPositions[i] <=                player1X + PADDLE_WIDTH) {
+            dropyPositions[i] = random(-500, 0); 
+            dropxPositions[i] = random(10, width - 10);
+            gscore ++;
+        }
+    }
+    for (var w = 0; w < starxPositions.length; w++) {
+        image(getImage("space/star"), starxPositions[w], staryPositions[w], 25, 25);
+        staryPositions[w] += dropSpeed[w];
+        if (staryPositions[w] > 400) {
+            staryPositions[w] = random(-500, 0);
+            starxPositions[w] = random(10, width - 10);
+        }
+        
+        if (staryPositions[w] + dropSpeed[w] >= 300 && staryPositions[w] + dropSpeed[w] <=          300 + PADDLE_HEIGHT && starxPositions[w] >= player1X && starxPositions[w] <=                player1X + PADDLE_WIDTH) {
+            staryPositions[w] = random(-500, 0); 
+            starxPositions[w] = random(10, width - 10);
+            gscore += 15;
+        }
+    }
+    for (var j = 0; j < rockxPositions.length; j++) {
+        image(getImage("cute/Rock"), rockxPositions[j] - 12.5, rockyPositions[j], 25, 25);
+        rockyPositions[j] += dropSpeed[j];
+        if (rockyPositions[j] > 400) {
+            rockyPositions[j] = random(-500, 0);
+            rockxPositions[j] = random(10, width - 10);
+        }
+        
+        if (rockyPositions[j] + dropSpeed[j] >= 300 && rockyPositions[j] + dropSpeed[j] <=          300 + PADDLE_HEIGHT && rockxPositions[j] >= player1X && rockxPositions[j] <=                player1X +     PADDLE_WIDTH) {
+            rockyPositions[j] = random(-500, 0); 
+            rockxPositions[j] = random(10, width - 10);
+            gscore -= 10;
+        }
+    }
+};
+
+var fruitNinjiSplashScreen = function(){
+    background(255, 204, 204);
+    currentScene = 17;  
+    fill(91,124,153);
+    textSize(30);
+    text("Game Dictionary", 90, 6);
+    textSize(15);
+    text("Brandon Rowe", 13, 382);
+    text("Michael Herchen", 280, 382, 300, 300);
+    textSize(15);
+    text("Prepare for a juicy adventure in this fruit-catching extravaganza! Follow these simple controls to maximize your points:", 42, 45, 350, 350);
+
+text("Move Left/Right: Use the arrow keys to maneuver your catcher.", 42, 109, 350, 350);
+text("Scoring:", 42, 153, 350, 350);
+text("Regular Drops: +1 point each", 42, 173, 350, 350);
+text("Stars: +15 points each", 42, 194, 350, 350);
+text("Beware of Rocks: -10 points each", 42, 212, 350, 350);
+text("Ready to dive in? Hit the 'Start' button and brace yourself for the fruity challenge. Remember, speed and precision are the keys to success. Enjoy the game and give it your best shot!" , 42, 235, 350, 350);
+    fill(91,124,153);
+    ellipse(60,349,71,65);
+    ellipse(347,342,80,77);
+    drawBitmoji(30,308,30);
+    drawBit({
+    bitmojiX:325, 
+    bitmojiY:305, 
+    bitmojiColor: color(184, 122, 199),
+    bitSize: 30,
+    initials: true
+});
+    btn1.draw();
+    btn2.draw();
+    
+};
+    
+
+
+
+
+mouseClicked = function(){
+    //main splash screen
+    if(currentScene === 0){
+        //start
+        btn1.handleMouseClick();
+    }
+    //homescreen
+    else if(currentScene === 1){
+        btn2.handleMouseClick();
+        btn3.handleMouseClick();
+        btn4.handleMouseClick();
+        TicTacToe.handleMouseClick();
+        poke.handleMouseClick();
+        dodge.handleMouseClick();
+        fruit.handleMouseClick();
+    }
+    //memory game splash
+    else if(currentScene === 2){
+        //start
+        btn1.handleMouseClick();
+        //back button
+        btn2.handleMouseClick();   
+    }
+        //memory game
+    else if(currentScene ===3){
+        if (stillPlaying === false && numMatches === !tiles.length/2){
+            startButton.handleMouseClick();
+        }
+    
+    
+             
+        if (stillPlaying === true){
+        for (var i = 0; i < tiles.length; i++) {
+            var tile = tiles[i];
+            if (tile.isUnderMouse(mouseX, mouseY)) {
+                if (flippedTiles.length < 2 && !tile.isFaceUp) {
+                    tile.isFaceUp = true;
+                    flippedTiles.push(tile);
+                    if (flippedTiles.length === 2) {
+                        numTries++;
+                        if (flippedTiles[0].face === flippedTiles[1].face) {
+                            flippedTiles[0].isMatch = true;
+                            flippedTiles[1].isMatch = true;
+                            flippedTiles.length = 0;
+                            numMatches++;
+                        }
+                        delayStartFC = frameCount;
+                    }
+                } 
+                loop();
+            }
+        }
+        }
+    }
+    //frogger splash
+    else if(currentScene === 4){
+        //start
+        btn1.handleMouseClick();
+        //back button
+        btn2.handleMouseClick();   
+    }
+    //frogger
+    else if(currentScene === 5){
+        btn5.handleMouseClick();
+        if(stillPlaying === false){
+        btn6.handleMouseClick();
+        }
+    }
+    //tictactoe splash
+    else if(currentScene === 6){
+        //start
+        btn1.handleMouseClick();
+        //back button
+        btn2.handleMouseClick();   
+    }
+    //tictactoe result
+    else if(currentScene === 8 ||currentScene === 9 ||currentScene === 10){
+        //home
+       btn6.handleMouseClick(); 
+       //restart
+       btn7.handleMouseClick();
+    }
+    else if(currentScene === 12){
+        //start
+        btn1.handleMouseClick();
+        //back button
+        btn2.handleMouseClick();     
+    }
+    else if(currentScene === 13){
+        //start
+        start.handleMouseClick();
+        //back button
+        btn2.handleMouseClick();     
+    }
+    else if(currentScene === 14){
+        //home
+       btn6.handleMouseClick(); 
+       //restart
+       btn7.handleMouseClick();
+     
+     
+     if (mouseY > 33 && mouseY <=117 && mouseX >= 0 && mouseX <= 120)  // User chose Aqua
+        {
+            if(computer_choice >= 0.5 && computer_choice < 1.5){
+                fill(0, 255, 255);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You both picked 'Aqua', it does not effect itself go again!", 20, 285);
+               tie_score ++;
+               image(getImage("avatars/aqualine-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 230);
+               image(getImage("avatars/aqualine-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+               
+            }
+            if(computer_choice >= 1.5 && computer_choice < 2.5){
+                fill(0, 255, 255);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Aqua', it's effective against 'Dusk' You Won!", 20, 285); 
+                image(getImage("avatars/aqualine-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 230);
+               image(getImage("avatars/duskpin-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+               player_score ++;
+            }
+            /////////////////////////////////////////////////////
+            if(computer_choice >= 2.5 && computer_choice < 3.5){
+                fill(97, 138, 61);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Aqua', it's ineffective against 'Leaf'. You lost!", 20, 285); 
+               computer_score ++;
+                image(getImage("avatars/aqualine-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 230);
+               image(getImage("avatars/leafers-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 3.5 && computer_choice < 4.5){
+                fill(0, 255, 255);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Aqua', it's effective against 'Picer'. You Won!", 20, 285); 
+               player_score ++;
+                image(getImage("avatars/aqualine-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 230);
+               image(getImage("avatars/piceratops-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 4.5 && computer_choice < 5.5){
+                fill(248, 227, 126);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Aqua', it's ineffective against 'Primo'. You lost!", 20, 285);
+               computer_score ++;
+                image(getImage("avatars/aqualine-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 230);
+               image(getImage("avatars/primosaur-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 5.5 && computer_choice < 6.5){
+                fill(255, 255, 255);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Aqua', it does not effect 'Starky'. Draw!", 20, 285); 
+               tie_score ++;
+                image(getImage("avatars/aqualine-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 230);
+               image(getImage("avatars/starky-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            // Add the logic to determine if user or computer won, or if there was a tie.
+        }
+        
+        else if (mouseY > 33 && mouseY <=117 && mouseX > 122 && mouseX <= 265) //User chose Dusk
+        {
+            if(computer_choice >= 0.5 && computer_choice < 1.5){
+                fill(0, 255, 255);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Dusk', it's ineffective against 'Aqua' You lost!", 20, 285);
+               image(getImage("avatars/duskpin-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 230);
+               image(getImage("avatars/aqualine-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+               computer_score ++;
+            }
+            if(computer_choice >= 1.5 && computer_choice < 2.5){
+                fill(220, 208, 255);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You both picked 'Dusk', it does not effect itself go again!", 20, 285);
+               tie_score ++;
+               image(getImage("avatars/duskpin-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 230);
+               image(getImage("avatars/duskpin-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            /////////////////////////////////////////////////////
+            if(computer_choice >= 2.5 && computer_choice < 3.5){
+                fill(220, 208, 255);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Dusk', it's effective against 'Leaf'. You Won!", 20, 285); 
+               player_score ++;
+               image(getImage("avatars/duskpin-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 230);
+               image(getImage("avatars/leafers-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 3.5 && computer_choice < 4.5){
+                fill(255, 255, 255);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Dusk', it does not effect 'Picer'. Draw!", 20, 285);
+               tie_score ++;
+               image(getImage("avatars/duskpin-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 230);
+               image(getImage("avatars/piceratops-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 4.5 && computer_choice < 5.5){
+                fill(220, 208, 255);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Dusk', it's effective against 'Primo'. You Won!", 20, 285);
+               player_score ++;
+               image(getImage("avatars/duskpin-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 230);
+               image(getImage("avatars/primosaur-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 5.5 && computer_choice < 6.5){
+                fill(162, 153, 150);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Dusk', it's ineffective against 'Starky'. You Lost!", 20, 285); 
+               computer_score ++;
+               image(getImage("avatars/duskpin-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 230);
+               image(getImage("avatars/starky-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            // Add the logic to determine if user or computer won, or if there was a tie.
+        }
+        
+        else if (mouseY > 33 && mouseY <=117 && mouseX > 267 && mouseX <= 400) //User chose Leaf
+        {
+            if(computer_choice >= 0.5 && computer_choice < 1.5){
+                fill(97, 138, 61);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Leaf', it's effective against 'Aqua.' You won!", 20, 285);
+               player_score ++;
+               image(getImage("avatars/leafers-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 230);
+               image(getImage("avatars/aqualine-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            if(computer_choice >= 1.5 && computer_choice < 2.5){
+                fill(220, 208, 255);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Leaf', it's ineffective against 'Dusk' You lost!", 20, 285);
+               computer_score ++;
+               image(getImage("avatars/leafers-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 230);
+               image(getImage("avatars/duskpin-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            /////////////////////////////////////////////////////
+            if(computer_choice >= 2.5 && computer_choice < 3.5){
+                fill(97, 138, 61);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You both picked 'Leaf', it does not effect itself go again!", 20, 285); 
+               tie_score ++;
+               image(getImage("avatars/leafers-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 230);
+               image(getImage("avatars/leafers-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 3.5 && computer_choice < 4.5){
+                fill(207, 25, 32);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Leaf', it's ineffective against 'Picer'. You Lost!", 20, 285);
+               image(getImage("avatars/leafers-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 230);
+               image(getImage("avatars/piceratops-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+               computer_score ++;
+            }
+            
+            if(computer_choice >= 4.5 && computer_choice < 5.5){
+               fill(255, 255, 255);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Leaf', it does not effect 'Primo'. You Draw!", 20, 285);
+               tie_score ++;
+               image(getImage("avatars/leafers-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 230);
+               image(getImage("avatars/primosaur-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 5.5 && computer_choice < 6.5){
+                fill(97, 138, 61);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Leaf', it's effective against 'Starky'. You Won!", 20, 285); 
+               player_score ++;
+               image(getImage("avatars/leafers-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 230);
+               image(getImage("avatars/starky-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            // Add the logic to determine if user or computer won, or if there was a tie.
+        }
+        
+        else if (mouseY > 121 && mouseY <= 200 && mouseX > 0 && mouseX <= 120) //User chose Picer
+        {
+            if(computer_choice >= 0.5 && computer_choice < 1.5){
+                fill(0, 255, 255);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Picer', it's ineffective against 'Aqua.' You Lost!", 20, 285);
+               computer_score ++;
+               image(getImage("avatars/piceratops-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 230);
+               image(getImage("avatars/aqualine-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            if(computer_choice >= 1.5 && computer_choice < 2.5){
+                fill(255, 255, 255);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Picer', it does not effect 'Dusk' You Draw!", 20, 285);
+               tie_score ++;
+               image(getImage("avatars/piceratops-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 230);
+               image(getImage("avatars/duskpin-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            /////////////////////////////////////////////////////
+            if(computer_choice >= 2.5 && computer_choice < 3.5){
+                fill(207, 25, 32);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Picer', it's effective against 'Leaf'. You Won!", 20, 285); 
+               image(getImage("avatars/piceratops-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 230);
+               image(getImage("avatars/leafers-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+               player_score ++;
+            }
+            
+            if(computer_choice >= 3.5 && computer_choice < 4.5){
+                fill(207, 25, 32);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+                 text("You both picked 'Picer', it does not effect itself go again!", 20, 285);
+                 tie_score ++;
+                 image(getImage("avatars/piceratops-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 230);
+               image(getImage("avatars/piceratops-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 4.5 && computer_choice < 5.5){
+                fill(248, 227, 126);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Picer', it's ineffective against 'Primo'. You Lost!", 20, 285);
+               computer_score ++;
+               image(getImage("avatars/piceratops-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 230);
+               image(getImage("avatars/primosaur-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 5.5 && computer_choice < 6.5){
+                fill(207, 25, 32);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Picer', it's effective against 'Starky'. You Won!", 20, 285); 
+               player_score ++;
+               image(getImage("avatars/piceratops-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 230);
+               image(getImage("avatars/starky-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            // Add the logic to determine if user or computer won, or if there was a tie.
+        }
+        
+        else if (mouseY > 121 && mouseY <= 200 && mouseX > 122 && mouseX <= 265) //User chose Primo
+        {
+            if(computer_choice >= 0.5 && computer_choice < 1.5){
+               fill(248, 227, 126);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Primo', it's effective against 'Aqua.' You Won!", 20, 285);
+               player_score ++;
+               image(getImage("avatars/primosaur-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 230);
+               image(getImage("avatars/aqualine-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            if(computer_choice >= 1.5 && computer_choice < 2.5){
+              fill(220, 208, 255);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Primo', it's ineffective against 'Dusk' You Lost!", 20, 285);
+               computer_score ++;
+               image(getImage("avatars/primosaur-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 230);
+               image(getImage("avatars/duskpin-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            /////////////////////////////////////////////////////
+            if(computer_choice >= 2.5 && computer_choice < 3.5){
+                fill(255, 255, 255);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Primo', it does not effect 'Leaf'. You Draw!", 20, 285);
+               tie_score ++;
+               image(getImage("avatars/primosaur-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 230);
+               image(getImage("avatars/leafers-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 3.5 && computer_choice < 4.5){
+               fill(248, 227, 126);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+                text("You picked 'Primo', it's effective against 'Picer'. You Won!", 20, 285);
+               player_score ++;
+               image(getImage("avatars/primosaur-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 230);
+               image(getImage("avatars/piceratops-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 4.5 && computer_choice < 5.5){
+               fill(248, 227, 126);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You both picked 'Primo', it does not effect itself go again!", 20, 285);
+               tie_score ++;
+               image(getImage("avatars/primosaur-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 230);
+               image(getImage("avatars/primosaur-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 5.5 && computer_choice < 6.5){
+               fill(162, 153, 150);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Primo', it's ineffective against 'Starky'. You Lost!", 20, 285); 
+               image(getImage("avatars/primosaur-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 230);
+               image(getImage("avatars/starky-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+               computer_score ++;
+            }
+            // Add the logic to determine if user or computer won, or if there was a tie.
+        }
+        
+         else if (mouseY > 121 && mouseY <= 200 && mouseX > 267 && mouseX <= 400) //User chose Starky
+        {
+            if(computer_choice >= 0.5 && computer_choice < 1.5){
+               fill(255, 255, 255);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Starky', it does not effect 'Aqua' You Draw!", 20, 285);
+               tie_score ++;
+               image(getImage("avatars/starky-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 230);
+               image(getImage("avatars/aqualine-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            if(computer_choice >= 1.5 && computer_choice < 2.5){
+               fill(162, 153, 150);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Starky', it's effective against 'Dusk' You Won!", 20, 285);
+               player_score ++;
+               image(getImage("avatars/starky-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 230);
+               image(getImage("avatars/duskpin-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+               player_score ++;
+            }
+            /////////////////////////////////////////////////////
+            if(computer_choice >= 2.5 && computer_choice < 3.5){
+               fill(97, 138, 61);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Starky', it's ineffective against 'Leaf'. You Lost!", 20, 285);
+               computer_score ++;
+               image(getImage("avatars/starky-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 230);
+               image(getImage("avatars/leafers-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 3.5 && computer_choice < 4.5){
+                fill(207, 25, 32);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+                text("You picked 'Starky', it's ineffective against 'Picer'. You Lost!", 20, 285);
+               computer_score ++;
+               image(getImage("avatars/starky-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("<", 180, 230);
+               image(getImage("avatars/piceratops-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            
+            if(computer_choice >= 4.5 && computer_choice < 5.5){
+               fill(162, 153, 150);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+               text("You picked 'Starky', it's effective against 'Primo'. You Won!", 20, 285);
+               image(getImage("avatars/starky-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text(">", 180, 230);
+               image(getImage("avatars/primosaur-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+               player_score ++;
+            }
+            
+            if(computer_choice >= 5.5 && computer_choice < 6.5){
+                fill(162, 153, 150);
+                rect(0, 200 , 400, 140);
+                fill(0, 0, 0);
+                text("You both picked 'Starky', it does not effect itself go again!", 20, 285);
+                tie_score ++;
+                image(getImage("avatars/starky-ultimate"), 80, 200, 80, 80 );
+               textSize(30);
+               text("=", 180, 230);
+               image(getImage("avatars/starky-ultimate"), 240, 200, 80, 80 );
+               textSize(14);
+            }
+            // Add the logic to determine if user or computer won, or if there was a tie.
+        }
+
+    else 
+        {
+            fill(255, 255, 255);
+            rect(0,283,400,20);
+            fill(0, 0, 0);
+            text ("Click One of the choices",100,285);
+        }
+    computer_choice = round(random(0.5,6.4));  // get new computer choice   
+    }
+    else if(currentScene === 15){
+        //start
+        btn1.handleMouseClick();
+        //back button
+        btn2.handleMouseClick();     
+    }
+    else if(currentScene === 16){
+        start.handleMouseClick(); 
+        //home
+        btn6.handleMouseClick(); 
+        //restart
+        btn7.handleMouseClick();
+    }
+    else if(currentScene === 17){
+        //start
+        btn1.handleMouseClick();
+        //back button
+        btn2.handleMouseClick();     
+    }
+    else if(currentScene === 18){
+        start.handleMouseClick(); 
+        //home
+        btn6.handleMouseClick(); 
+        //restart
+        btn7.handleMouseClick();
+    }
+};   
+
+//Define the draw function
+draw = function() {
+    
+    if(currentScene === 0){
+        splashScreen();
+    }
+    else if(currentScene === 1){
+        home(); 
+    }
+    else if(currentScene === 2){
+        memorySplashScreen();
+        stillPlaying = false;
+    }
+    else if(currentScene === 3){
+        memory();   
+    }
+    else if(currentScene === 4){
+        froggerSplashScreen();
+        score = 0;
+        stillPlaying = true;
+        rocketShips = [];
+       for (var i = 0; i < numRockets; i++) {  
+    rocketShips.push(new RocketShip(i * 100 - 10000, random(40, 260)));
+    } 
+    }
+    else if(currentScene === 5){
+        frogger(); 
+    }
+    else if(currentScene === 6){
+        ticTacToeSplashScreen();
+        stillPlaying = false;
+    }
+    else if(currentScene === 7){
+        ticTacToe();
+        stillPlaying = true;
+        
+    }
+    else if(currentScene === 8){
+        XWins();
+        stillPlaying = false;
+    }
+    else if(currentScene === 9){
+        OWins();  
+        stillPlaying = false;
+    }
+    else if(currentScene === 10){
+        noOneWins(); 
+        stillPlaying = false;
+    }
+    else if(currentScene === 11){
+        resetTictactoe();
+        stillPlaying = true;
+    }
+    else if(currentScene === 12){
+        pokemonSplashScreen(); 
+        player_score = 0;
+        computer_score = 0;
+        tie_score = 0;
+    }
+    else if(currentScene === 13){
+        pokemonTypeChart();   
+    }
+    else if(currentScene === 14){
+        pokemon();   
+    }
+    else if(currentScene === 15){
+     dodgeBallSplashScreen();
+     stillPlaying = false;
+     gameOver = false;
+     balls = [];
+     score = 0;
+    }
+    else if(currentScene === 16){
+        dodgeBall();   
+    }
+    else if(currentScene === 17){
+        fruitNinjiSplashScreen();
+        gscore = 0;
+    }
+    else if(currentScene === 18){
+        fruitNinji();  
+    }
+
+};
